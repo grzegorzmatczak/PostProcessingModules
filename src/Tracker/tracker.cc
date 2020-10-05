@@ -8,9 +8,9 @@ Tracker::Tracker(QObject *parent) : PostProcess(parent) {
 }
 
 void Tracker::configure(QJsonObject const &a_config) {
-  //H_logger->trace("Tracker::configure()");
+  //Logger->trace("Tracker::configure()");
   auto const NAME_STRING{a_config[NAME].toString()};
-  //H_logger->trace("Tracker type: {}", NAME_STRING.toStdString());
+  //Logger->trace("Tracker type: {}", NAME_STRING.toStdString());
   delete m_baseTracker;
   m_timer.reset();
 
@@ -19,15 +19,17 @@ void Tracker::configure(QJsonObject const &a_config) {
   } else if (NAME_STRING == "None") {
     m_baseTracker = {new Trackers::None{}};
   } else {
-    //H_logger->error("Unsupported filter type: {}", NAME_STRING.toStdString());
+    //spdlog::error("Unsupported filter type: {}", NAME_STRING.toStdString());
   }
 }
 
 void Tracker::process(std::vector<_postData> &_data)
 {
-  //H_logger->trace("Tracker::process(a_image)");
+  //Logger->trace("Tracker::process(a_image)");
   m_timer.start();
   m_baseTracker->process(_data);
   m_timer.stop();
 }
 double Tracker::getElapsedTime() { return m_timer.getTimeMilli(); }
+
+void Tracker::endProcess(std::vector<_postData> &_data) {}

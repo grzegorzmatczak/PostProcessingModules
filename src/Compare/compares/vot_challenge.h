@@ -11,6 +11,7 @@ public:
   VOT(QJsonObject const &a_config);
 
   void process(std::vector<_postData> &_data);
+  void endProcess(std::vector<_postData> &_data);
 
 private:
   regionBounds regionComputeBounds(const regionContainer &region);

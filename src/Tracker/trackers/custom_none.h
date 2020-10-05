@@ -11,6 +11,7 @@ public:
   None();
 
   void process(std::vector<_postData> &_data);
+  void endProcess(std::vector<_postData> &_data);
 
 private:
 };

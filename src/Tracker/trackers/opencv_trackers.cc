@@ -16,28 +16,28 @@ Trackers::Trackers::Trackers(QJsonObject const &a_config)
     QString _name = m_configTracker[i].toObject()[NAME].toString();
     if (_name == "KCF") {
       m_trackers.push_back(cv::TrackerKCF::create());
-      // H_logger->trace("Create KCF tracker");
+      // Logger->trace("Create KCF tracker");
     } else if (_name == "MIL") {
       m_trackers.push_back(cv::TrackerMIL::create());
-      // H_logger->trace("Create MIL tracker");
+      // Logger->trace("Create MIL tracker");
     } else if (_name == "MedianFlow") {
       m_trackers.push_back(cv::TrackerMedianFlow::create());
-      // H_logger->trace("Create MedianFlow tracker");
+      // Logger->trace("Create MedianFlow tracker");
     } else if (_name == "CSRT") {
       m_trackers.push_back(cv::TrackerCSRT::create());
-      // H_logger->trace("Create CSRT tracker");
+      // Logger->trace("Create CSRT tracker");
     } else if (_name == "BOOSTING") {
       m_trackers.push_back(cv::TrackerBoosting::create());
-      // H_logger->trace("Create BOOSTING tracker");
+      // Logger->trace("Create BOOSTING tracker");
     } else if (_name == "TLD") {
       m_trackers.push_back(cv::TrackerTLD::create());
-      // H_logger->trace("Create TLD tracker");
+      // Logger->trace("Create TLD tracker");
     } else if (_name == "GOTURN") {
       m_trackers.push_back(cv::TrackerGOTURN::create());
-      // H_logger->trace("Create GOTURN tracker");
+      // Logger->trace("Create GOTURN tracker");
     } else if (_name == "MOSSE") {
       m_trackers.push_back(cv::TrackerMOSSE::create());
-      // H_logger->trace("Create MOSSE tracker");
+      // Logger->trace("Create MOSSE tracker");
     }
 
     m_activeTracking.push_back(false);
@@ -47,7 +47,7 @@ Trackers::Trackers::Trackers(QJsonObject const &a_config)
 }
 
 void Trackers::Trackers::process(std::vector<_postData> &_data) {
-  // H_logger->trace("Trackers::Tracker::process()");
+  // Logger->trace("Trackers::Tracker::process()");
 
   /*
   QPolygonF polygon;
@@ -60,13 +60,13 @@ void Trackers::Trackers::process(std::vector<_postData> &_data) {
   bool ok = false;
   for (int i = 0; i < m_configTracker.size(); i++) {
     if (m_activeTracking[i]) {
-      // H_logger->trace("Trackers::Tracker::process() update");
+      // Logger->trace("Trackers::Tracker::process() update");
       ok = m_trackers[i]->update(_data[0].processing, rect);
-      // H_logger->trace("Trackers::Tracker::process() ok:{}", ok);
+      // Logger->trace("Trackers::Tracker::process() ok:{}", ok);
     }
 
     else if (m_frameIteration == m_frameTracking[i]) {
-      // H_logger->trace("Trackers::Tracker::process() init");
+      // Logger->trace("Trackers::Tracker::process() init");
       cv::Rect2d rectCV =
           cv::Rect2d(m_configTracker[i].toObject()[X].toDouble(),
                      m_configTracker[i].toObject()[Y].toDouble(),
@@ -76,11 +76,11 @@ void Trackers::Trackers::process(std::vector<_postData> &_data) {
       // qDebug() << "rectCV.x:" << rectCV.x;
 
       ok = m_trackers[i]->init(_data[0].processing, rectCV);
-      // H_logger->trace("Trackers::Tracker::process() ok:{}", ok);
+      // Logger->trace("Trackers::Tracker::process() ok:{}", ok);
 
       m_activeTracking[i] = true;
     } else {
-      // H_logger->trace("else:{}", i);
+      // Logger->trace("else:{}", i);
     }
     QRectF rectOutput = QRectF(rect.x, rect.y, rect.width, rect.height);
     QPolygonF rectPolygonF = QPolygonF(rectOutput);
@@ -109,8 +109,10 @@ void Trackers::Trackers::process(std::vector<_postData> &_data) {
                 cv::FONT_HERSHEY_PLAIN, 0.5, cv::Scalar(255, 255, 255), 0.7);
   }
 
-  // H_logger->trace("Trackers::Tracker::process() i:{}, ok:{}",
+  // Logger->trace("Trackers::Tracker::process() i:{}, ok:{}",
   // m_frameIteration, ok);
 
   m_frameIteration++;
 }
+
+void Trackers::Trackers::endProcess(std::vector<_postData> &_data) {}

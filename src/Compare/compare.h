@@ -18,6 +18,7 @@ public:
   void configure(QJsonObject const &a_config);
 
   void process(std::vector<_postData> &_data);
+  void endProcess(std::vector<_postData> &_data);
   double getElapsedTime();
 
 private:

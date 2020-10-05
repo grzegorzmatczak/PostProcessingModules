@@ -152,3 +152,5 @@ void Compares::VOTCpp::process(std::vector<_postData> &_data)
 
   m_counter++;
 }
+
+void Compares::VOTCpp::endProcess(std::vector<_postData> &_data) {}

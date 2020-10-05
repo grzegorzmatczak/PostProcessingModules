@@ -20,6 +20,7 @@ class CodeStats2014 : public BaseCompare
  public:
   CodeStats2014(QJsonObject const &a_config);
   void process(std::vector<_postData> &_data);
+  void endProcess(std::vector<_postData> &_data);
   void alertBadImage(const cv::Mat_<uchar> &image, QString name);
 
  private:

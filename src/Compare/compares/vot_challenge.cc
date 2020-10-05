@@ -7,6 +7,9 @@ void Compares::VOT::process(std::vector<_postData> &_data)
   //cv::Mat dsst = _data[0].processing.clone();
 }
 
+void Compares::VOT::endProcess(std::vector<_postData> &_data) {}
+
+
 regionBounds Compares::VOT::regionComputeBounds(const regionContainer &region) {
   regionBounds bounds;
   switch (region.type) {

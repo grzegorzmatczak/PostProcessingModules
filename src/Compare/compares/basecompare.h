@@ -10,6 +10,7 @@ public:
   virtual ~BaseCompare();
 
   virtual void process(std::vector<_postData> &_data) = 0;
+  virtual void endProcess(std::vector<_postData> &_data) = 0;
 };
 
 #endif // BASECOMPARE_H

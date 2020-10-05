@@ -18,6 +18,7 @@ public:
   Trackers(QJsonObject const &a_config);
 
   void process(std::vector<_postData> &_data);
+  void endProcess(std::vector<_postData> &_data);
 
 private:
   std::vector<cv::Ptr<cv::Tracker>> m_trackers;

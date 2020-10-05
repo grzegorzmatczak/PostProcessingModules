@@ -14,9 +14,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/basic_file_sink.h"
-
+#include "configreader.h"
 
 
 typedef struct regionBounds {
@@ -67,10 +65,48 @@ struct imageErrors
     double time;
 };
 
+struct fitnessFunction
+{
+    bool Accuracy;
+    bool Recall;
+    bool Specificity;
+    bool FPR;
+    bool FNR;
+    bool PWC;
+    bool Precision;
+    bool NegativePrecision;
+    bool FMeasure;
+    bool fitnessTime;
+};
+
+struct fitness
+{
+    qint64 fn;
+    qint64 fp;
+    qint64 tn;
+    qint64 tp;
+    qint64 nb;
+    double Accuracy;
+    double Recall;
+    double Specificity;
+    double FPR;
+    double FNR;
+    double PWC;
+    double Precision;
+    double NegativePrecision;
+    double FMeasure;
+    double fitness;
+    double rfitness;
+    double cfitness;
+    double time;
+    double fitnessTime;
+};
+
 struct _postData {
     cv::Mat processing;
     QString testStr;
     imageErrors ie;
+    struct fitness fs;
     std::vector<QPolygonF> bounds;
     std::vector<cv::Rect> rects;
     QString nameOfTracker;
@@ -79,19 +115,21 @@ struct _postData {
 
 class Tracker;
 class Compare;
+class Fitness;
 
 class PostProcess : public QObject {
   Q_OBJECT
 
 public:
-  enum Model { FILTER, ESTIMATOR };
-  Q_ENUM(Model);
+  //enum Model { FILTER, ESTIMATOR };
+  //Q_ENUM(Model);
 
   explicit PostProcess(QObject *parent = nullptr);
 
   static PostProcess*make(QString model);
   virtual void configure(QJsonObject const &a_config) = 0;
   virtual void process(std::vector<_postData> &_data) = 0;
+  virtual void endProcess(std::vector<_postData>& _data) = 0;
   virtual double getElapsedTime() = 0;
 };
 

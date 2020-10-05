@@ -9,12 +9,12 @@ constexpr auto NAME{ "Name" };
 
 Compare::Compare(QObject *parent) : PostProcess(parent) {
   m_baseCompare = new Compares::None{};
-  qCInfo(CompareLogger) << "Compare()";
+  //qCInfo(CompareLogger) << "Compare()";
 }
 
 void Compare::configure(QJsonObject const &a_config) {
   auto const NAME_STRING{a_config[NAME].toString()};
-  qCInfo(CompareLogger) << "Compare::configure()  type:" << NAME_STRING;
+  //qCInfo(CompareLogger) << "Compare::configure()  type:" << NAME_STRING;
   delete m_baseCompare;
   m_timer.reset();
 
@@ -22,18 +22,23 @@ void Compare::configure(QJsonObject const &a_config) {
     m_baseCompare = new Compares::None{};
   } else if (NAME_STRING == "VOT") {
     m_baseCompare = new Compares::VOT{a_config};
+  } else if (NAME_STRING == "CodeStats2014") {
+    m_baseCompare = new Compares::CodeStats2014{ a_config };
   } else if (NAME_STRING == "VOTCpp") {
-    m_baseCompare = new Compares::VOTCpp{a_config};
+    m_baseCompare = new Compares::VOTCpp{ a_config };
   } else {
     qCWarning(CompareLogger)
         << "Compare::configure() Unsupported filter type:" << NAME_STRING;
   }
 }
 
+
 void Compare::process(std::vector<_postData> &_data) {
-  qCDebug(CompareLogger) << " Compare::process";
+ // qCDebug(CompareLogger) << " Compare::process";
   m_timer.start();
   m_baseCompare->process(_data);
   m_timer.stop();
 }
 double Compare::getElapsedTime() { return m_timer.getTimeMilli(); }
+
+void Compare::endProcess(std::vector<_postData> &_data) {}
