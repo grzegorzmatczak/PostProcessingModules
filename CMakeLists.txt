@@ -13,27 +13,18 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS_COMMON} -O1 " )
 
 set(CMAKE_AUTOMOC ON)
 
-if (UNIX)
-	set(CMAKE_PREFIX_PATH /home/gmatczak/opencv/build)
-endif (UNIX)
+
 
 cmake_policy(SET CMP0054 NEW)
-set (CMAKE_PREFIX_PATH "D:\\opencv\\build")
-list(APPEND CMAKE_PREFIX_PATH "E:\\repo\\vcpkg\\installed\\x64-windows")
-list(APPEND CMAKE_PREFIX_PATH "D:\\Qt\\Qt5.12.8\\5.12.8\\msvc2017_64")
-list(APPEND CMAKE_PREFIX_PATH "E:\\repo\\ConfigReader\\build")
-find_package(spdlog CONFIG REQUIRED)
+if (UNIX)
+	
+endif (UNIX)
 
-macro(print_all_variables)
-    message(STATUS "print_all_variables------------------------------------------{")
-    get_cmake_property(_variableNames VARIABLES)
-    foreach (_variableName ${_variableNames})
-        message(STATUS "${_variableName}=${${_variableName}}")
-    endforeach()
-    message(STATUS "print_all_variables------------------------------------------}")
-endmacro()
-
-print_all_variables()
+if (WIN32)
+	set (CMAKE_PREFIX_PATH "E:\\repo\\opencvBuild")
+	list(APPEND CMAKE_PREFIX_PATH "E:\\Qt\\5.12.8\\msvc2017_64")
+	list(APPEND CMAKE_PREFIX_PATH "E:\\repo\\ConfigReader\\build")
+endif (WIN32)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(ConfigReader REQUIRED)
@@ -86,7 +77,6 @@ if (UNIX)
 endif (UNIX)
 
 if (WIN32)
-	target_link_libraries(${PROJECT_NAME} spdlog::spdlog spdlog::spdlog_header_only)
 	target_link_libraries(${PROJECT_NAME} Qt5::Core ${OpenCV_LIBS} Threads::Threads ConfigReader)
 endif (WIN32)
 
