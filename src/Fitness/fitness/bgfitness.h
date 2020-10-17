@@ -21,7 +21,7 @@ class BGFitness : public BaseFitness
   void endProcess(std::vector<_postData> &_data);
   //struct fitness getFitness();
   //void addTime(double time);
-  struct fitness Fitnesses::BGFitness::getFitness();
+  struct fitness getFitness();
 
  private:
   imageErrors m_errors;
