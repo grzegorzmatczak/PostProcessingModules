@@ -54,7 +54,7 @@ set(SRC
 )
 
 set(HEADERS
-  include/postprocess.h
+  include/postprocessing.h
 )
 
 add_library(${PROJECT_NAME} STATIC
