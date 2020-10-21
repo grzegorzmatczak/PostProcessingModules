@@ -13,8 +13,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS_COMMON} -O1 " )
 
 set(CMAKE_AUTOMOC ON)
 
-
-
 cmake_policy(SET CMP0054 NEW)
 if (UNIX)
 	
