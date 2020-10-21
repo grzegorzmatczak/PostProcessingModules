@@ -14,7 +14,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
-#include "configreader.h"
+#include "../../ConfigReader/include/configreader.h"
 
 
 typedef struct regionBounds {
