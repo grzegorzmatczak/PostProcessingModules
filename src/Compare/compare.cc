@@ -15,7 +15,7 @@ Compare::Compare(QObject *parent) : PostProcess(parent) {
 void Compare::configure(QJsonObject const &a_config) {
   auto const NAME_STRING{a_config[NAME].toString()};
   //qCInfo(CompareLogger) << "Compare::configure()  type:" << NAME_STRING;
-  //Logger->info("Compare::configure()  type:{}", NAME_STRING.toStdString());
+  Logger->info("Compare::configure()  type:{}", NAME_STRING.toStdString());
   delete m_baseCompare;
   m_timer.reset();
 

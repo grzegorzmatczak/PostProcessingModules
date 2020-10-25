@@ -11,7 +11,7 @@ PostProcess::PostProcess(QObject *parent)
 PostProcess *PostProcess::make(QString model)
 {
   //qInfo() << "Creating: " << model;
-  Logger->trace("Filter type: {}", model.toStdString());
+  Logger->debug("Filter type: {}", model.toStdString());
 
   if (model == "Tracker") {
     return new Tracker(nullptr);

@@ -1,16 +1,10 @@
 #include "dlibnetwork.h"
 #include <QJsonObject>
 
+#define DEBUG FALSE
 
 Compares::DlibNetwork::DlibNetwork(QJsonObject const &a_config)
 {
-  //Logger->info("Compares::DlibNetwork::DlibNetwork");
-  //quint32 m_width = a_config[WIDTH].toInt();
-  //quint32 m_height = a_config[HEIGHT].toInt();
- // m_ROI = cv::Mat(m_height, m_width, CV_8UC1, cv::Scalar(255));
- // quint32 m_dronSize = a_config[DRONSIZE].toInt();
-  //m_res = (m_width * m_height - m_dronSize) / m_dronSize;
- // Logger->trace("Compare::CodeStats2014::CodeStats2014 m_dronSize:{}", m_dronSize);
 }
 
 void Compares::DlibNetwork::alertBadImage(const cv::Mat_<uchar> &image, QString name)
@@ -22,9 +16,15 @@ void Compares::DlibNetwork::alertBadImage(const cv::Mat_<uchar> &image, QString 
 
 void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 {
-  Logger->info("DlibNetwork m_res:{}", m_res);
+  Logger->info("DlibNetwork");
   const cv::Mat_<uchar> binary = _data[0].processing.clone();
   const cv::Mat_<uchar> gt = _data[1].processing.clone();
+
+  #if (DEBUG)
+      cv::imshow("binary", _data[0].processing);
+      cv::imshow("gt", _data[1].processing);
+      cv::waitKey(0);
+  #endif
   /*
   cv::imshow("0", binary);
   cv::imshow("1", gt);
@@ -44,8 +44,9 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
   for (; itBinary != itEnd; ++itBinary, ++itGT) {
     // Current pixel needs to be in the ROI && it must not be an unknown color
 
-      if (*itBinary > 0) { // Model thinks pixel is foreground  
-        if (*itGT >0) {
+      if (*itBinary >0 ) { // Model thinks pixel is foreground  
+          //Logger->trace("itBinary>1 input:{}  gt:{}", *itBinary, *itGT);
+        if (*itGT > 0) {
           //++m_errors2.tpError; // and it is
           m_errors2.tpError+=1;
         } else {
@@ -53,6 +54,7 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
           m_errors2.fpError += 1;
         }
       } else { // Model thinks pixel is background
+        //Logger->trace("itBinary=0 input:{}  gt:{}", *itBinary, *itGT);
         if (*itGT > 0) {
           m_errors2.fnError += 1; // but it's not
         } else {
@@ -60,8 +62,13 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
         }
       }
   }
-  Logger->trace("DlibNetwork done");
+  Logger->trace("DlibNetwork tpError:{}", m_errors2.tpError);
+  Logger->trace("DlibNetwork fpError:{}", m_errors2.fpError);
+  Logger->trace("DlibNetwork fnError:{}", m_errors2.fnError);
+  Logger->trace("DlibNetwork tnError:{}", m_errors2.tnError);
+
   _data[0].ie = m_errors2;
+  Logger->info("DlibNetwork");
  /// Logger->trace("imageErrors Compare::CodeStats2014 done");
   //return m_errors2;
 }
