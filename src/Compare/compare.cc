@@ -26,6 +26,8 @@ void Compare::configure(QJsonObject const &a_config) {
     m_baseCompare = new Compares::CodeStats2014{ a_config };
   } else if (NAME_STRING == "VOTCpp") {
     m_baseCompare = new Compares::VOTCpp{ a_config };
+  } else if (NAME_STRING == "DlibNetwork") {
+    m_baseCompare = new Compares::DlibNetwork{ a_config };
   } else {
     qCWarning(CompareLogger)
         << "Compare::configure() Unsupported filter type:" << NAME_STRING;

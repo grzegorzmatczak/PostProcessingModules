@@ -24,7 +24,7 @@ void Compares::DlibNetwork::alertBadImage(const cv::Mat_<uchar> &image, QString 
 
 void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 {
-  //Logger->trace("imageErrors Compare::CodeStats2014 Main loop: m_res:{}", m_res);
+  Logger->trace("DlibNetwork m_res:{}", m_res);
   const cv::Mat_<uchar> binary = _data[0].processing.clone();
   const cv::Mat_<uchar> gt = _data[1].processing.clone();
   /*
@@ -45,9 +45,9 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
   cv::MatConstIterator_<uchar> itEnd = binary.end();
   for (; itBinary != itEnd; ++itBinary, ++itGT, ++itROI) {
     // Current pixel needs to be in the ROI && it must not be an unknown color
-    if (*itROI != BLACK && *itGT != UNKNOWN) {
-      if (*itBinary == WHITE) { // Model thinks pixel is foreground  
-        if (*itGT == WHITE) {
+
+      if (*itBinary > 0) { // Model thinks pixel is foreground  
+        if (*itGT >0) {
           //++m_errors2.tpError; // and it is
           m_errors2.tpError+=1;
         } else {
@@ -55,21 +55,14 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
           m_errors2.fpError += 1;
         }
       } else { // Model thinks pixel is background
-        if (*itGT == WHITE) {
+        if (*itGT > 0) {
           m_errors2.fnError += 1; // but it's not
         } else {
           m_errors2.tnError += 1; // and it is
         }
       }
-
-      if (*itGT == SHADOW) {
-        if (*itBinary == WHITE) {
-          ++m_errors2.nbShadowError;
-        }
-      }
-    }
   }
-  //Logger->trace("imageErrors Compare::CodeStats2014 done");
+  Logger->trace("DlibNetwork done");
   _data[0].ie = m_errors2;
  /// Logger->trace("imageErrors Compare::CodeStats2014 done");
   //return m_errors2;

@@ -6,12 +6,6 @@
 
 #include "basecompare.h"
 
-const uchar BLACK = 0;
-const uchar SHADOW = 50;
-const uchar OUTOFSCOPE = 85;
-const uchar UNKNOWN = 170;
-const uchar WHITE = 255;
-
 class QJsonObject;
 
 namespace Compares {

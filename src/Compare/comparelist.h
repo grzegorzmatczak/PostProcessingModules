@@ -5,5 +5,6 @@
 #include "compares/vot_challenge.h"
 #include "compares/votcpp_challenge.h"
 #include "compares/codestats_2014.h"
+#include "compares/dlibnetwork.h"
 
 #endif // COMPARE_LIST_H
