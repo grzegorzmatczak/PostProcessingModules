@@ -13,6 +13,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS_COMMON} -O1 " )
 
 set(CMAKE_AUTOMOC ON)
 
+
+
 cmake_policy(SET CMP0054 NEW)
 if (UNIX)
 	
@@ -48,7 +50,7 @@ endif()
   file(GLOB_RECURSE FITNESS_HEADERS src/Fitness/*.h src/Fitness/*.hpp)
 
 set(SRC
-   src/postprocess.cc
+   src/postprocessing.cc
 )
 
 set(HEADERS

@@ -910,3 +910,5 @@ build/.vs/PostProcessingModules/v16/ipch/AutoPCH/a5f1e69da97cdda4/COMPARE.ipch
 build/.vs/PostProcessingModules/v16/ipch/AutoPCH/bc0ff059ec17d83f/CODESTATS_2014.ipch
 build/.vs/PostProcessingModules/v16/ipch/AutoPCH/f5313794eb18f27a/VOT_CHALLENGE.ipch
 build/PostProcessingModules.dir/Debug/dlibnetwork.obj
+build/PostProcessingModules.dir/Debug/postprocessing.obj
+build/PostProcessingModules_autogen/include_Debug/6YEA5652QU/moc_postprocessing.cpp

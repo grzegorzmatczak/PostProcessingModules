@@ -1,18 +1,16 @@
 #include "dlibnetwork.h"
 #include <QJsonObject>
 
-constexpr auto WIDTH{ "Width" };
-constexpr auto HEIGHT{ "Height" };
-constexpr auto DRONSIZE{ "DronSize" };
 
 Compares::DlibNetwork::DlibNetwork(QJsonObject const &a_config)
 {
-  quint32 m_width = a_config[WIDTH].toInt();
-  quint32 m_height = a_config[HEIGHT].toInt();
-  m_ROI = cv::Mat(m_height, m_width, CV_8UC1, cv::Scalar(255));
-  quint32 m_dronSize = a_config[DRONSIZE].toInt();
-  m_res = (m_width * m_height - m_dronSize) / m_dronSize;
-  Logger->trace("Compare::CodeStats2014::CodeStats2014 m_dronSize:{}", m_dronSize);
+  //Logger->info("Compares::DlibNetwork::DlibNetwork");
+  //quint32 m_width = a_config[WIDTH].toInt();
+  //quint32 m_height = a_config[HEIGHT].toInt();
+ // m_ROI = cv::Mat(m_height, m_width, CV_8UC1, cv::Scalar(255));
+ // quint32 m_dronSize = a_config[DRONSIZE].toInt();
+  //m_res = (m_width * m_height - m_dronSize) / m_dronSize;
+ // Logger->trace("Compare::CodeStats2014::CodeStats2014 m_dronSize:{}", m_dronSize);
 }
 
 void Compares::DlibNetwork::alertBadImage(const cv::Mat_<uchar> &image, QString name)
@@ -24,7 +22,7 @@ void Compares::DlibNetwork::alertBadImage(const cv::Mat_<uchar> &image, QString 
 
 void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 {
-  Logger->trace("DlibNetwork m_res:{}", m_res);
+  Logger->info("DlibNetwork m_res:{}", m_res);
   const cv::Mat_<uchar> binary = _data[0].processing.clone();
   const cv::Mat_<uchar> gt = _data[1].processing.clone();
   /*
@@ -34,7 +32,7 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 
   cv::MatConstIterator_<uchar> itBinary = binary.begin();
   cv::MatConstIterator_<uchar> itGT = gt.begin();
-  cv::MatConstIterator_<uchar> itROI = m_ROI.begin();
+ // cv::MatConstIterator_<uchar> itROI = m_ROI.begin();
   struct imageErrors m_errors2;
   m_errors2.fnError = 0;
   m_errors2.fpError = 0;
@@ -43,7 +41,7 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
   m_errors2.nbShadowError = 0;
   //Logger->trace("imageErrors Compare::CodeStats2014 Main loop: m_res:{}", m_res);
   cv::MatConstIterator_<uchar> itEnd = binary.end();
-  for (; itBinary != itEnd; ++itBinary, ++itGT, ++itROI) {
+  for (; itBinary != itEnd; ++itBinary, ++itGT) {
     // Current pixel needs to be in the ROI && it must not be an unknown color
 
       if (*itBinary > 0) { // Model thinks pixel is foreground  
