@@ -12,21 +12,19 @@ class QJsonObject;
 
 namespace Fitnesses
 {
-class BGFitness : public BaseFitness
-{
- public:
-  BGFitness(QJsonObject const &a_config);
+	class BGFitness : public BaseFitness
+	{
+	 public:
+	  BGFitness(QJsonObject const &a_config);
 
-  void process(std::vector<_postData> &_data);
-  void endProcess(std::vector<_postData> &_data);
-  //struct fitness getFitness();
-  //void addTime(double time);
-  struct fitness getFitness();
+	  void process(std::vector<_postData> &_data);
+	  void endProcess(std::vector<_postData> &_data);
+	  struct fitness getFitness();
 
- private:
-  imageErrors m_errors;
-  fitnessFunction m_activeFitnessFunction;
-};
+	 private:
+	  imageErrors m_errors;
+	  fitnessFunction m_activeFitnessFunction;
+	};
 } // namespace Fitnesses
 
 #endif // FITNESS_BGFITNESS_H

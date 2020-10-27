@@ -1,12 +1,11 @@
 #ifndef FITNESS_CALCULATION_H
 #define FITNESS_CALCULATION_H
 
-#include <QDebug>
-#include <QObject>
+#include "../../include/postprocessing.h"
 
 #include <opencv2/imgproc.hpp>
-
-#include "../../include/postprocessing.h"
+#include <QDebug>
+#include <QObject>
 
 class BaseFitness;
 class QJsonObject;

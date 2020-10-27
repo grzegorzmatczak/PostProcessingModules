@@ -7,30 +7,30 @@ constexpr auto NAME{ "Name" };
 Fitness::Fitness(QObject *parent)
   : PostProcess(parent)
 {
-  //Logger->trace("Fitness::Fitness()");
+  Logger->trace("Fitness::Fitness()");
   m_baseFitness = new Fitnesses::None();
 }
 
 void Fitness::configure(QJsonObject const &a_config)
 {
  Logger->trace("Fitness::configure()");
-  auto const NAME_STRING{ a_config[NAME].toString() };
+  auto const _name{ a_config[NAME].toString() };
   delete m_baseFitness;
   m_timer.reset();
 
-  if (NAME_STRING == "BGFitness") {
+  if (_name == "BGFitness") {
     m_baseFitness = new Fitnesses::BGFitness{ a_config };
-  } else if (NAME_STRING == "None") {
+  } else if (_name == "None") {
     m_baseFitness = new Fitnesses::None();
   } else {
-   Logger->error("Unsupported encoder type: {}", NAME_STRING.toStdString());
+   Logger->error("Unsupported fitness type: {}", _name.toStdString());
   }
 
 }
 
 void Fitness::process(std::vector<_postData> &_data)
 {
-  //Logger->trace("Fitness::process(a_image)");
+  Logger->trace("Fitness::process(a_image)");
   m_timer.start();
   m_baseFitness->process(_data);
   m_timer.stop();

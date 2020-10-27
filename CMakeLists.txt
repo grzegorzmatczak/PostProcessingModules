@@ -13,8 +13,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS_COMMON} -O1 " )
 
 set(CMAKE_AUTOMOC ON)
 
-
-
 cmake_policy(SET CMP0054 NEW)
 if (UNIX)
 	
@@ -49,6 +47,9 @@ endif()
   file(GLOB_RECURSE FITNESS_SRC src/Fitness/*.cc src/Fitness/*.c)
   file(GLOB_RECURSE FITNESS_HEADERS src/Fitness/*.h src/Fitness/*.hpp)
 
+  file(GLOB_RECURSE ENCODER_SRC src/Encoder/*.cc src/Encoder/*.c)
+  file(GLOB_RECURSE ENCODER_HEADERS src/Encoder/*.h src/Encoder/*.hpp)
+
 set(SRC
    src/postprocessing.cc
 )
@@ -62,6 +63,7 @@ add_library(${PROJECT_NAME} STATIC
     ${COMPARE_SRC} ${COMPARE_HEADERS}
     ${TRACKER_SRC} ${TRACKER_HEADERS}
     ${FITNESS_SRC} ${FITNESS_HEADERS}
+    ${ENCODER_SRC} ${ENCODER_HEADERS}
 )
 
 qt5_use_modules(${PROJECT_NAME} Widgets)
