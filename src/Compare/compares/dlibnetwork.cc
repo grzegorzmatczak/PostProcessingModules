@@ -16,14 +16,14 @@ void Compares::DlibNetwork::alertBadImage(const cv::Mat_<uchar> &image, QString 
 
 void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 {
-  Logger->info("DlibNetwork");
+  Logger->trace("DlibNetwork");
   const cv::Mat_<uchar> binary = _data[0].processing.clone();
   const cv::Mat_<uchar> gt = _data[1].processing.clone();
 
   #if (DEBUG)
       cv::imshow("binary", _data[0].processing);
       cv::imshow("gt", _data[1].processing);
-      cv::waitKey(0);
+      cv::waitKey(1);
   #endif
   /*
   cv::imshow("0", binary);
@@ -62,13 +62,13 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
         }
       }
   }
-  Logger->trace("DlibNetwork tpError:{}", m_errors2.tpError);
-  Logger->trace("DlibNetwork fpError:{}", m_errors2.fpError);
-  Logger->trace("DlibNetwork fnError:{}", m_errors2.fnError);
-  Logger->trace("DlibNetwork tnError:{}", m_errors2.tnError);
-
+#if (DEBUG)
+  Logger->info("DlibNetwork tpError:{}", m_errors2.tpError);
+  Logger->info("DlibNetwork fpError:{}", m_errors2.fpError);
+  Logger->info("DlibNetwork fnError:{}", m_errors2.fnError);
+  Logger->info("DlibNetwork tnError:{}", m_errors2.tnError);
+#endif
   _data[0].ie = m_errors2;
-  Logger->info("DlibNetwork");
  /// Logger->trace("imageErrors Compare::CodeStats2014 done");
   //return m_errors2;
 }

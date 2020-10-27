@@ -1,6 +1,8 @@
 #include "bgfitness.h"
 #include <QJsonObject>
 
+#define DEBUG FALSE
+
 constexpr auto FITENSS_FUNCTION{ "FitnessFunction" };
 constexpr auto ACCURACY{ "Accuracy" };
 constexpr auto RECALL{ "Recall" };
@@ -74,12 +76,15 @@ void Fitnesses::BGFitness::process(std::vector<_postData> &_data)
   m_errors.tnError += _data[0].ie.tnError;
   m_errors.tpError += _data[0].ie.tpError;
   m_errors.nbShadowError += _data[0].ie.nbShadowError;
-  /*
-  Logger->trace("_data[0].ie.tpError:{}",_data[0].ie.tpError);
-  Logger->trace("_data[0].ie.fpError:{}", _data[0].ie.fpError);
-  Logger->trace("_data[0].ie.tnError:{}", _data[0].ie.tnError);
-  Logger->trace("_data[0].ie.tpError:{}", _data[0].ie.tpError);
+#if (DEBUG)
 
+  Logger->info("_data[0].ie.tpError:{}",_data[0].ie.tpError);
+  Logger->info("_data[0].ie.fpError:{}", _data[0].ie.fpError);
+  Logger->info("_data[0].ie.tnError:{}", _data[0].ie.tnError);
+  Logger->info("_data[0].ie.tpError:{}", _data[0].ie.tpError);
+#endif
+
+  /*
     Logger->trace("m_errors.fnError:{}", m_errors.fnError);
   Logger->trace("m_errors.fpError:{}", m_errors.fpError);
     Logger->trace("m_errors.tnError:{}", m_errors.tnError);
@@ -161,6 +166,13 @@ void Fitnesses::BGFitness::endProcess(std::vector<_postData> &_data)
  Logger->trace("_data[0].fs.Recall:{}", _data[0].fs.Recall);
  Logger->trace("_data[0].fs.FMeasure:{}", _data[0].fs.FMeasure);
   Logger->trace("_data[0].fs.Precision:{}", _data[0].fs.Precision);
+
+  //clean:
+  m_errors.fnError = 0;
+  m_errors.fpError = 0;
+  m_errors.tnError = 0;
+  m_errors.tpError = 0;
+  m_errors.nbShadowError = 0;
  
 }
 
