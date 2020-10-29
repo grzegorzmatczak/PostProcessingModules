@@ -24,11 +24,11 @@ namespace Encoders
 	 private:
 		QString m_name;
 		QString m_type;
-		qint32 m_code;
+		int m_code;
 		double m_fps;
 		QString m_iter;
-		qint32 m_width;
-		qint32 m_height;
+		int m_width;
+		int m_height;
 		cv::VideoWriter m_videoShoal;
 	};
 } // namespace Encoders

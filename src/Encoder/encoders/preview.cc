@@ -18,32 +18,74 @@ Encoders::Preview::Preview(QJsonObject const &a_config)
     (m_name + m_iter + m_type).toStdString(), cv::CAP_FFMPEG, m_code, m_fps, cv::Size(m_width, m_height), true
   };
   Logger->trace("name:{}", (m_name + m_iter + m_type).toStdString().c_str());
+ Logger->trace("m_fps:{}", m_fps);
+  Logger->trace("m_iter:{}", m_iter.toStdString());
+  Logger->trace("m_type:{}", m_type.toStdString().c_str());
+  Logger->trace("m_width:{}", m_width);
+  Logger->trace("m_height:{}", m_height);
 }
 
 void Encoders::Preview::process(std::vector<_postData> &_data)
 {
-  cv::Mat m_image;
-  cv::Mat m_gt;
-  cv::Mat m_pre;
-  cv::Mat m_post;
+#if (DEBUG)
+  Logger->info("_data.size() == {}:", _data.size());
 
-  //cv::cvtColor(a_image, m_image, cv::COLOR_GRAY2BGR);
-  //cv::cvtColor(a_gt, m_gt, cv::COLOR_GRAY2BGR);
-  //cv::cvtColor(a_pre, m_pre, cv::COLOR_GRAY2BGR);
-  //cv::cvtColor(a_post, m_post, cv::COLOR_GRAY2BGR);
 
-  cv::Mat Cat1;
-  cv::Mat Cat2;
-  cv::Mat Cat;
+#endif
 
-  cv::hconcat(m_image, m_gt, Cat1);
-  cv::hconcat(m_pre, m_post, Cat2);
-  cv::vconcat(Cat1, Cat2, Cat);
+  if (_data.size() == 2) {
 
-  cv::resize(Cat, Cat, cv::Size(static_cast<int>(m_width), static_cast<int>(m_height)), 0, 0, cv::INTER_NEAREST);
-  m_videoShoal.write(Cat);
+    cv::Mat a_image = _data[0].processing.clone();
+    cv::Mat a_gt = _data[1].processing.clone();
+    cv::Mat m_image;
+    cv::Mat m_gt;
+    cv::cvtColor(a_image, m_image, cv::COLOR_GRAY2BGR);
+    cv::cvtColor(a_gt, m_gt, cv::COLOR_GRAY2BGR);
+    cv::Mat Cat1;
+    cv::hconcat(m_image, m_gt, Cat1);
+    cv::Mat Cat;
+    cv::resize(Cat1, Cat, cv::Size(static_cast<int>(m_width), static_cast<int>(m_height)), 0, 0, cv::INTER_NEAREST);
+    m_videoShoal.write(Cat);
+  }
+  if (_data.size() == 4) {
+    cv::Mat a_image = _data[0].processing.clone();
+    cv::Mat a_gt = _data[1].processing.clone();
+    cv::Mat a_pre = _data[2].processing.clone();
+    cv::Mat a_post = _data[3].processing.clone();
+
+    cv::Mat m_image;
+    cv::Mat m_gt;
+    cv::Mat m_pre;
+    cv::Mat m_post;
+
+    cv::cvtColor(a_image, m_image, cv::COLOR_GRAY2BGR);
+    cv::cvtColor(a_gt, m_gt, cv::COLOR_GRAY2BGR);
+    cv::cvtColor(a_pre, m_pre, cv::COLOR_GRAY2BGR);
+    cv::cvtColor(a_post, m_post, cv::COLOR_GRAY2BGR);
+
+    cv::Mat Cat1;
+    cv::Mat Cat2;
+    cv::Mat Cat;
+
+    cv::hconcat(m_image, m_gt, Cat1);
+    cv::hconcat(m_pre, m_post, Cat2);
+    cv::vconcat(Cat1, Cat2, Cat);
+
+    cv::resize(Cat, Cat, cv::Size(static_cast<int>(m_width), static_cast<int>(m_height)), 0, 0, cv::INTER_NEAREST);
+    m_videoShoal.write(Cat);
+
+
+  }
+
+
 }
 void Encoders::Preview::endProcess(std::vector<_postData> &_data)
 {
+#if (DEBUG)
+  Logger->info("Encoders::Preview::endProcess(std::vector<_postData> &_data)");
+ #endif
   m_videoShoal.release();
+  m_videoShoal = {
+    (m_name + m_iter + m_type).toStdString(), cv::CAP_FFMPEG, m_code, m_fps, cv::Size(m_width, m_height), true
+  };
 }
