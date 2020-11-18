@@ -23,6 +23,7 @@ Encoders::Preview::Preview(QJsonObject const &a_config)
   Logger->trace("m_type:{}", m_type.toStdString().c_str());
   Logger->trace("m_width:{}", m_width);
   Logger->trace("m_height:{}", m_height);
+  iter = 0;
 }
 
 void Encoders::Preview::process(std::vector<_postData> &_data)
@@ -81,11 +82,12 @@ void Encoders::Preview::process(std::vector<_postData> &_data)
 }
 void Encoders::Preview::endProcess(std::vector<_postData> &_data)
 {
+  iter++;
 #if (DEBUG)
   Logger->info("Encoders::Preview::endProcess(std::vector<_postData> &_data)");
  #endif
   m_videoShoal.release();
   m_videoShoal = {
-    (m_name + m_iter + m_type).toStdString(), cv::CAP_FFMPEG, m_code, m_fps, cv::Size(m_width, m_height), true
+    (m_name + m_iter +"_" + QString::number(iter) + m_type ).toStdString(), cv::CAP_FFMPEG, m_code, m_fps, cv::Size(m_width, m_height), true
   };
 }

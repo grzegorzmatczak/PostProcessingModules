@@ -30,6 +30,7 @@ namespace Encoders
 		int m_width;
 		int m_height;
 		cv::VideoWriter m_videoShoal;
+    int iter;
 	};
 } // namespace Encoders
 
