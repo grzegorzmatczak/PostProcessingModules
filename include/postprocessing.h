@@ -6,7 +6,6 @@
 #include <QJsonObject>
 #include <QMetaEnum>
 #include <QObject>
-#include <QPolygonF>
 #include <QtCore>
 #include <stdio.h>
 
@@ -107,7 +106,7 @@ struct _postData {
     QString testStr;
     imageErrors ie;
     struct fitness fs;
-    std::vector<QPolygonF> bounds;
+    //std::vector<QPolygonF> bounds;
     std::vector<cv::Rect> rects;
     QString nameOfTracker;
     QString nameOfFile;

@@ -1,5 +1,5 @@
 #include "opencv_trackers.h"
-#include <QPolygonF>
+
 
 constexpr auto TRACKERS{ "Trackers" };
 constexpr auto WIDTH{ "Width" };
@@ -49,12 +49,7 @@ Trackers::Trackers::Trackers(QJsonObject const &a_config)
 void Trackers::Trackers::process(std::vector<_postData> &_data) {
   // Logger->trace("Trackers::Tracker::process()");
 
-  /*
-  QPolygonF polygon;
-  QPointF(0, 0);
-  for (int i = 0; i < 8; i++) {
-    polygon << QPointF(0, 0);
-  }*/
+/*
   cv::Rect2d rect{0, 0, 0, 0};
 
   bool ok = false;
@@ -113,6 +108,7 @@ void Trackers::Trackers::process(std::vector<_postData> &_data) {
   // m_frameIteration, ok);
 
   m_frameIteration++;
+  */
 }
 
 void Trackers::Trackers::endProcess(std::vector<_postData> &_data) {}

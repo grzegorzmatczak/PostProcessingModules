@@ -1,12 +1,12 @@
 #include "votcpp_challenge.h"
 #include <QFile>
 #include <QLoggingCategory>
-#include <QPolygonF>
 Q_LOGGING_CATEGORY(CompareVotCppLogger, "Compare.votcpp")
 
 constexpr auto GROUNDTRUTH{ "GroundtruthString" };
 
 Compares::VOTCpp::VOTCpp(QJsonObject const &a_config) : m_counter(0) {
+  /*
   QFile _textFile{a_config[GROUNDTRUTH].toString()};
   if (_textFile.open(QIODevice::ReadOnly)) {
     while (!_textFile.atEnd()) {
@@ -44,31 +44,32 @@ Compares::VOTCpp::VOTCpp(QJsonObject const &a_config) : m_counter(0) {
       //         << " " << data.height() << "\n";
     }
   }
+  */
 }
 
 void Compares::VOTCpp::process(std::vector<_postData> &_data)
 {
-
+  /*
   qCDebug(CompareVotCppLogger) << "m_rect.size:" << m_rect.size();
   qCDebug(CompareVotCppLogger) << "m_counter:" << m_counter;
   qCDebug(CompareVotCppLogger)
       << "m_rect[m_counter].size():" << m_rect[m_counter].size();
   for (int i = 0; i < 3; i++) {
-    /*
+    
     cv::line(
         _data[0].processing,
         cv::Point2f(m_rect[m_counter].at(i).x(), m_rect[m_counter].at(i).y()),
         cv::Point2f(m_rect[m_counter].at(i + 1).x(),
                     m_rect[m_counter].at(i + 1).y()),
-        cv::Scalar(255, 0, 0), 1);*/
+        cv::Scalar(255, 0, 0), 1);
   }
-  /*
+  
   cv::line(
       _data[0].processing,
       cv::Point2f(m_rect[m_counter].at(0).x(), m_rect[m_counter].at(0).y()),
       cv::Point2f(m_rect[m_counter].at(3).x(), m_rect[m_counter].at(3).y()),
       cv::Scalar(255, 0, 0), 1);
-  */
+  
   for (int i = 0; i < _data[0].bounds.size(); i++) {
     if (m_rect[m_counter].intersects(_data[0].bounds[i])) {
       QPolygonF intersected = m_rect[m_counter].intersected(_data[0].bounds[i]);
@@ -98,7 +99,8 @@ void Compares::VOTCpp::process(std::vector<_postData> &_data)
       QString data = "tracker[" + QString::number(i) +
                      "]:" + QString::number(area, 'g', 6);
       cv::Point point = cv::Point(5, 20 + i * 30);
-      /*
+      
+      
       cv::putText(_data[0].processing, data.toStdString(), point,
                   cv::FONT_HERSHEY_PLAIN, 1.0, cv::Scalar(0, 0, 0), 3);
       cv::putText(_data[0].processing, data.toStdString(), point,
@@ -117,12 +119,15 @@ void Compares::VOTCpp::process(std::vector<_postData> &_data)
                cv::Point2f(intersected.at(intersected.size() - 1).x(),
                            intersected.at(intersected.size() - 1).y()),
                cv::Scalar(0, 0, 255), 1);
-      */
-    }
+     
+    } 
   }
-  /*
+  */
   //qDebug() << "compare:";
 
+
+
+    /*
   //qDebug() << "_data[0].bounds.x" << _data[0].bounds[i].x;
   //qDebug() << "m_rect[" << m_counter << "].x:" << m_rect[m_counter].x;
 
@@ -148,9 +153,11 @@ void Compares::VOTCpp::process(std::vector<_postData> &_data)
   cv::putText(_data[0].processing, data.toStdString(), point,
               cv::FONT_HERSHEY_PLAIN, 1.0, cv::Scalar(0, 0, 0), 3);
   cv::putText(_data[0].processing, data.toStdString(), point,
-              cv::FONT_HERSHEY_PLAIN, 1.0, cv::Scalar(255, 255, 255), 1);*/
+              cv::FONT_HERSHEY_PLAIN, 1.0, cv::Scalar(255, 255, 255), 1);
 
   m_counter++;
+
+  */
 }
 
 void Compares::VOTCpp::endProcess(std::vector<_postData> &_data) {}

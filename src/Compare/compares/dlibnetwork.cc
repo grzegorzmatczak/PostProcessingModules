@@ -24,11 +24,11 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
   const cv::Mat_<uchar> gt = _data[1].processing.clone();
 
 #if (DEBUG)
-  Logger->critical("DlibNetwork  m_width:{}", m_width);
-  Logger->critical("DlibNetwork  m_height:{}", m_height);
+  //Logger->critical("DlibNetwork  m_width:{}", m_width);
+  //Logger->critical("DlibNetwork  m_height:{}", m_height);
   cv::imshow("binary", _data[0].processing);
   cv::imshow("gt", _data[1].processing);
-  cv::waitKey(0);
+  cv::waitKey(1);
 #endif
   struct imageErrors m_errors2 { 0, 0, 0, 0, 0 };
 
@@ -36,7 +36,7 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 
   for (int i = 0; i < m_width; i++) {
 #if (DEBUG)
-    Logger->trace("DlibNetwork:{}", i);
+   // Logger->trace("DlibNetwork:{}", i);
 #endif
     for (int j = 0; j < m_height; j++) {
 

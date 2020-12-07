@@ -15,7 +15,7 @@ public:
 
 private:
   QStringList m_groundTruth;
-  std::vector<QPolygonF> m_rect;
+  //std::vector<QPolygonF> m_rect;
   qint32 m_counter;
 };
 } // namespace Compares

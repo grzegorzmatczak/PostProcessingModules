@@ -162,11 +162,13 @@ void Fitnesses::BGFitness::endProcess(std::vector<_postData> &_data)
   }
   _data[0].fs = fs;
   //return fs;
-  Logger->trace("_data[0].fs.Accuracy:{}", _data[0].fs.Accuracy);
- Logger->trace("_data[0].fs.Recall:{}", _data[0].fs.Recall);
- Logger->trace("_data[0].fs.FMeasure:{}", _data[0].fs.FMeasure);
-  Logger->trace("_data[0].fs.Precision:{}", _data[0].fs.Precision);
-
+#if (DEBUG)
+  Logger->info("_data[0].fs.Accuracy:{}", _data[0].fs.Accuracy);
+  Logger->info("_data[0].fs.Recall:{}", _data[0].fs.Recall);
+  Logger->info("_data[0].fs.FMeasure:{}", _data[0].fs.FMeasure);
+  Logger->info("_data[0].fs.Precision:{}", _data[0].fs.Precision);
+  Logger->info("_data[0].fs.fitness:{}", _data[0].fs.fitness);
+ #endif
   //clean:
   m_errors.fnError = 0;
   m_errors.fpError = 0;
