@@ -26,10 +26,10 @@ namespace Encoders
 		QString m_type;
 		int m_code;
 		double m_fps;
-		QString m_iter;
+		int m_iter;
 		int m_width;
 		int m_height;
-		cv::VideoWriter m_videoShoal;
+		cv::VideoWriter* m_videoShoal;
     int iter;
 	};
 } // namespace Encoders
