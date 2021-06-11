@@ -1,7 +1,7 @@
 #ifndef FITNESS_CALCULATION_H
 #define FITNESS_CALCULATION_H
 
-#include "../../include/postprocessing.h"
+#include "postprocessing.h"
 
 #include <opencv2/imgproc.hpp>
 #include <QDebug>

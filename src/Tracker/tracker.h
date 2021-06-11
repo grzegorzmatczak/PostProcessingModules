@@ -6,7 +6,8 @@
 
 #include <opencv2/imgproc.hpp>
 
-#include "../../include/postprocessing.h"
+#include "postprocessing.h"
+
 
 class BaseTracker;
 class QJsonObject;
