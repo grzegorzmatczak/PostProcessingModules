@@ -20,6 +20,9 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
   int m_width = _data[0].processing.cols;
   int m_height = _data[0].processing.rows;
 
+  //m_res = (m_width * m_height - m_dronSize) / m_dronSize;
+
+
   const cv::Mat_<uchar> binary = _data[0].processing.clone();
   const cv::Mat_<uchar> gt = _data[1].processing.clone();
 
@@ -40,16 +43,24 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 #endif
     for (int j = 0; j < m_height; j++) {
 
-      if (_data[0].processing.at<unsigned char>(cv::Point(i, j)) > 0) {   // Binary   - true
-        if (_data[1].processing.at<unsigned char>(cv::Point(i, j)) > 0) { // Gt       - true
+      if (_data[0].processing.at<unsigned char>(cv::Point(i, j)) > 0)
+      {   // Binary   - true
+        if (_data[1].processing.at<unsigned char>(cv::Point(i, j)) > 0)
+        { // Gt       - true
           m_errors2.tpError += 1;
-        } else { // Gt       - false
+        }
+        else
+        { // Gt       - false
           m_errors2.fpError += 1;
         }
-      } else {                                                            // Binary   - false
-        if (_data[1].processing.at<unsigned char>(cv::Point(i, j)) > 0) { // Gt       - true
+      }
+      else
+      {                                                            // Binary   - false
+        if (_data[1].processing.at<unsigned char>(cv::Point(i, j)) > 0)
+        { // Gt       - true
           m_errors2.fnError += 1;
-        } else { // Gt       - false
+        }
+        else { // Gt       - false
           m_errors2.tnError += 1;
         }
       }

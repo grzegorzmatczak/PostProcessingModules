@@ -27,6 +27,7 @@ class CodeStats2014 : public BaseCompare
   struct imageErrors m_errors;
   cv::Mat_<uchar> m_ROI;
   quint32 m_res;
+  quint32 m_dronSize ;
 };
 } // namespace Compares
 
