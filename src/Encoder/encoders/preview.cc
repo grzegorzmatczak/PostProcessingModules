@@ -1,8 +1,12 @@
 #include "preview.h"
 #include <QJsonObject>
 
+#ifdef __linux__
 #include <unistd.h>
-
+#endif // __linux__
+#ifdef _WIN32
+#endif // _WIN32
+	
 //#define DEBUG
 
 Encoders::Preview::Preview(QJsonObject const &a_config)
