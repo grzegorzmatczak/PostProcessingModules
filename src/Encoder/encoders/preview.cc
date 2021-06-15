@@ -11,8 +11,16 @@
 
 Encoders::Preview::Preview(QJsonObject const &a_config)
 {
-	std::string codecSTR = "avc1";
+	//std::string codecSTR = "avc1";
+	//std::string codecSTR = "XVID";
+	//std::string codecSTR = "PIM1";
+	//std::string codecSTR = "MJPG";
+	std::string codecSTR = "mp4v";
+	// VideoWriter::fourcc('P','I','M','1')
 	m_code = cv::VideoWriter::fourcc(codecSTR[0], codecSTR[1], codecSTR[2], codecSTR[3]);
+	//int stream = cv::CAP_GSTREAMER;
+	int stream = cv::CAP_FFMPEG;
+
 	qint64 _nowTime = qint64(QDateTime::currentMSecsSinceEpoch());
 	m_name = a_config["Path"].toString();
 	m_fps = (double)a_config["FPS"].toInt();
@@ -20,8 +28,9 @@ Encoders::Preview::Preview(QJsonObject const &a_config)
 	m_type = a_config["Type"].toString();
 	m_width = a_config["Width"].toInt();
 	m_height = a_config["Height"].toInt();
+
 	m_videoShoal =new cv::VideoWriter((m_name + m_type ).toStdString(),  
-				 cv::CAP_FFMPEG, m_code, m_fps, cv::Size(m_width, m_height), true);
+				 stream, m_code, m_fps, cv::Size(m_width, m_height), true);
 
 	#ifdef DEBUG
 	Logger->debug("name:{}", (m_name + m_iter + m_type).toStdString().c_str());
@@ -31,7 +40,6 @@ Encoders::Preview::Preview(QJsonObject const &a_config)
 	Logger->debug("m_width:{}", m_width);
 	Logger->debug("m_height:{}", m_height);
 	#endif
-
 }
 
 void Encoders::Preview::process(std::vector<_postData> &_data)
