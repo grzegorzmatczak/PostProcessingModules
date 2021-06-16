@@ -20,8 +20,7 @@ Encoders::Preview::Preview(QJsonObject const &a_config)
 	m_code = cv::VideoWriter::fourcc(codecSTR[0], codecSTR[1], codecSTR[2], codecSTR[3]);
 	//int stream = cv::CAP_GSTREAMER;
 	int stream = cv::CAP_FFMPEG;
-
-	qint64 _nowTime = qint64(QDateTime::currentMSecsSinceEpoch());
+	
 	m_name = a_config["Path"].toString();
 	m_fps = (double)a_config["FPS"].toInt();
 	m_iter = (a_config["Iter"].toInt());
