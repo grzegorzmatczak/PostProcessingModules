@@ -104,6 +104,7 @@ struct fitness
 	double rfitness;
 	double cfitness;
 	double time;
+	double postTime;
 	double fitnessTime;
 };
 
