@@ -55,9 +55,9 @@ void Compares::CodeStats2014::process(std::vector<_postData> &_data)
 	cv::MatConstIterator_<uchar> itEnd = binary.end();
 	for (; itBinary != itEnd; ++itBinary, ++itGT)
 	{
-		if (*itGT >= 250)
+		if (*itGT == 255)
 		{ // Model thinks pixel is foreground  
-			if (*itBinary >= 250)
+			if (*itBinary == 255)
 			{
 				//++m_errors2.tpError; // and it is
 				m_errors2.tpError+=1;
@@ -68,9 +68,9 @@ void Compares::CodeStats2014::process(std::vector<_postData> &_data)
 				m_errors2.fpError += 1;
 			}
 		}
-		else if(*itGT <= 50 )
+		else if(*itGT == 0 )
 		{ // Model thinks pixel is background
-			if (*itBinary <= 50)
+			if (*itBinary == 0)
 			{
 				m_errors2.tnError += 1; 
 			} 
