@@ -17,18 +17,19 @@ class QJsonObject;
 namespace Compares {
 class CodeStats2014 : public BaseCompare
 {
- public:
-  CodeStats2014(QJsonObject const &a_config);
-  void process(std::vector<_postData> &_data);
-  void endProcess(std::vector<_postData> &_data);
-  void alertBadImage(const cv::Mat_<uchar> &image, QString name);
+	public:
+		CodeStats2014(QJsonObject const &a_config);
+		void process(std::vector<_postData> &_data);
+		void endProcess(std::vector<_postData> &_data);
+		void alertBadImage(const cv::Mat_<uchar> &image, QString name);
 
- private:
-  struct imageErrors m_errors;
-  cv::Mat_<uchar> m_ROI;
-  quint32 m_res;
-  quint32 m_dronSize ;
+	private:
+		struct imageErrors m_errors;
+		cv::Mat_<uchar> m_ROI;
+		quint32 m_res;
+		quint32 m_dronSize ;
 };
+
 } // namespace Compares
 
 #endif // CODE_STATS_2014_H

@@ -66,7 +66,6 @@ struct imageErrors
 	qint64 fpError;
 	qint64 fnError;
 	qint64 tnError;
-	qint64 nbShadowError;
 	double time;
 };
 
