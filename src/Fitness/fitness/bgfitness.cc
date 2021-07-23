@@ -64,7 +64,6 @@ Fitnesses::BGFitness::BGFitness(QJsonObject const &a_config)
 	m_errors.fpError = 0;
 	m_errors.tnError = 0;
 	m_errors.tpError = 0;
-	m_errors.nbShadowError = 0;
 }
 
 void Fitnesses::BGFitness::process(std::vector<_postData> &_data)
@@ -74,7 +73,6 @@ void Fitnesses::BGFitness::process(std::vector<_postData> &_data)
 	m_errors.fpError += _data[0].ie.fpError;
 	m_errors.tnError += _data[0].ie.tnError;
 	m_errors.tpError += _data[0].ie.tpError;
-	m_errors.nbShadowError += _data[0].ie.nbShadowError;
 
 	#ifdef DEBUG
 	Logger->debug("_data.size() == {}:", _data.size());	
@@ -99,7 +97,6 @@ void Fitnesses::BGFitness::endProcess(std::vector<_postData> &_data)
 	double fp = m_errors.fpError ? m_errors.fpError : 1;
 	double tn = m_errors.tnError ? m_errors.tnError : 1;
 	double tp = m_errors.tpError ? m_errors.tpError : 1;
-	double nb = m_errors.nbShadowError ? m_errors.nbShadowError : 1;
 	double time = m_errors.time ? m_errors.time : 1;
 
 
@@ -108,7 +105,6 @@ void Fitnesses::BGFitness::endProcess(std::vector<_postData> &_data)
 	fs.fp = fp;
 	fs.tn = tn;
 	fs.tp = tp;
-	fs.nb = nb;
 	fs.time = time;
 	fs.fitness = 0;
 	//fs.fitnessTime = static_cast<double>((1 / fs.time) * 200);
@@ -167,7 +163,5 @@ void Fitnesses::BGFitness::endProcess(std::vector<_postData> &_data)
 	m_errors.fpError = 0;
 	m_errors.tnError = 0;
 	m_errors.tpError = 0;
-	m_errors.nbShadowError = 0;
- 
 }
 

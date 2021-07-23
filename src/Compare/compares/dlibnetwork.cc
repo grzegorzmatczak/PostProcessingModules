@@ -7,7 +7,7 @@
 Compares::DlibNetwork::DlibNetwork(QJsonObject const &a_config)
 {
 	#ifdef DEBUG
-	Logger->debug(Compares::DlibNetwork:"DlibNetwork()");
+	Logger->debug("Compares::DlibNetwork::DlibNetwork()");
 	#endif
 }
 
@@ -53,7 +53,7 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 		}
 		else if(*itGT == 0 )
 		{ // Model thinks pixel is background
-			if (*itBinary <=)
+			if (*itBinary <= 0)
 			{
 				m_errors2.tnError += 1; 
 			} 

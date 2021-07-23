@@ -89,7 +89,6 @@ struct fitness
 	qint64 fp;
 	qint64 tn;
 	qint64 tp;
-	qint64 nb;
 	double Accuracy;
 	double Recall;
 	double Specificity;
@@ -113,7 +112,6 @@ struct _postData
 	QString testStr;
 	imageErrors ie;
 	struct fitness fs;
-	//std::vector<QPolygonF> bounds;
 	std::vector<cv::Rect> rects;
 	QString nameOfTracker;
 	QString nameOfFile;
@@ -128,7 +126,6 @@ class PostProcess : public QObject
 	Q_OBJECT
 
 	public:
-
 		explicit PostProcess(QObject *parent = nullptr);
 		static PostProcess* make(QString model);
 		virtual void configure(QJsonObject const &a_config) = 0;
