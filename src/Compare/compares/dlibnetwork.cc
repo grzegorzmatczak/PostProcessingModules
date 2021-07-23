@@ -30,7 +30,6 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 	const cv::Mat_<uchar> binary = _data[0].processing.clone();
 	const cv::Mat_<uchar> gt = _data[1].processing.clone();
 
-	
 	cv::MatConstIterator_<uchar> itBinary = binary.begin();
 	cv::MatConstIterator_<uchar> itGT = gt.begin();
 	cv::MatConstIterator_<uchar> itEnd = binary.end();
