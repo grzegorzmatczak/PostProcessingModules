@@ -1,13 +1,13 @@
 #include "dlibnetwork.h"
 #include <QJsonObject>
 
-#define DEBUG
-#define DEBUG_OPENCV
+//#define DEBUG
+//#define DEBUG_OPENCV
 
 Compares::DlibNetwork::DlibNetwork(QJsonObject const &a_config)
 {
 	#ifdef DEBUG
-	Logger->debug("Compares::DlibNetwork::DlibNetwork()");
+	Logger->debug("Compares::DlibNetwork::DlibNetwork()");//
 	#endif
 }
 
@@ -28,17 +28,17 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 	int m_height = _data[0].processing.rows;
 
 	const cv::Mat_<uchar> binary = _data[0].processing.clone();
-	const cv::Mat_<uchar> gt = _data[1].processing.clone();
+	const cv::Mat_<float> gt = _data[1].processing.clone();
 
 	cv::MatConstIterator_<uchar> itBinary = binary.begin();
-	cv::MatConstIterator_<uchar> itGT = gt.begin();
+	cv::MatConstIterator_<float> itGT = gt.begin();
 	cv::MatConstIterator_<uchar> itEnd = binary.end();
 
 	struct imageErrors m_errors2 { 0, 0, 0, 0, 0 };
 
 	for (; itBinary != itEnd; ++itBinary, ++itGT)
 	{
-		if (*itGT == 255)
+		if (*itGT > 0)
 		{ // Model thinks pixel is foreground  
 			if (*itBinary > 0)
 			{
@@ -51,7 +51,7 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 				m_errors2.fpError += 1;
 			}
 		}
-		else if(*itGT == 0 )
+		else if(*itGT <= 0 )
 		{ // Model thinks pixel is background
 			if (*itBinary <= 0)
 			{
@@ -73,6 +73,7 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 	#ifdef DEBUG_OPENCV
 		cv::imshow("binary", _data[0].processing);
 		cv::imshow("gt", _data[1].processing);
+		cv::imshow("clean", _data[2].processing);
 		cv::waitKey(1);
 	#endif
 
