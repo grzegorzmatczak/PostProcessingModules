@@ -32,7 +32,8 @@ namespace Encoders
 		int m_width;
 		int m_height;
 		cv::VideoWriter* m_videoShoal;
-    int iter;
+   	 	int iter;
+		QString m_split;
 	};
 } // namespace Encoders
 

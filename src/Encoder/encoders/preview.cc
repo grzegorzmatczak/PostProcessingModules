@@ -10,7 +10,18 @@
 //#define DEBUG
 
 Encoders::Preview::Preview(QJsonObject const &a_config)
+: m_name("mp4")
+, m_fps(30)
+, m_iter(0)
+, m_type("")
 {
+	#ifdef _WIN32
+	m_split = "\\";
+	#endif // _WIN32
+	#ifdef __linux__
+	m_split = "/";
+	#endif // _UNIX
+
 	//std::string codecSTR = "avc1";
 	//std::string codecSTR = "XVID";
 	//std::string codecSTR = "PIM1";
@@ -28,11 +39,11 @@ Encoders::Preview::Preview(QJsonObject const &a_config)
 	m_width = a_config["Width"].toInt();
 	m_height = a_config["Height"].toInt();
 
-	m_videoShoal =new cv::VideoWriter((m_name + m_type ).toStdString(),  
+	m_videoShoal = new cv::VideoWriter((m_name + m_type).toStdString(),  
 				 stream, m_code, m_fps, cv::Size(m_width, m_height), true);
 
 	#ifdef DEBUG
-	Logger->debug("name:{}", (m_name + m_iter + m_type).toStdString().c_str());
+	Logger->debug("name:{}", (m_name + m_type).toStdString());
 	Logger->debug("m_fps:{}", m_fps);
 	Logger->debug("m_iter:{}", m_iter);
 	Logger->debug("m_type:{}", m_type.toStdString().c_str());
@@ -51,7 +62,6 @@ void Encoders::Preview::process(std::vector<_postData> &_data)
 	
 	if (_data.size() == 2) 
 	{
-
 		cv::Mat a_image = _data[0].processing.clone();
 		cv::Mat a_gt = _data[1].processing.clone();
 		cv::Mat m_image;
