@@ -21,13 +21,11 @@ Encoders::Preview::Preview(QJsonObject const &a_config)
 	#ifdef __linux__
 	m_split = "/";
 	#endif // _UNIX
-
 	//std::string codecSTR = "avc1";
 	//std::string codecSTR = "XVID";
 	//std::string codecSTR = "PIM1";
 	//std::string codecSTR = "MJPG";
 	std::string codecSTR = "mp4v";
-	// VideoWriter::fourcc('P','I','M','1')
 	m_code = cv::VideoWriter::fourcc(codecSTR[0], codecSTR[1], codecSTR[2], codecSTR[3]);
 	//int stream = cv::CAP_GSTREAMER;
 	int stream = cv::CAP_FFMPEG;
