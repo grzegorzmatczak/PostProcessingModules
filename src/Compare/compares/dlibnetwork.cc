@@ -33,7 +33,7 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 	cv::MatConstIterator_<uchar> itEnd = binary.end();
 
 	//cv::Mat img_compare = cv::Mat::zeros(_data[0].processing.size(), CV_8UC1);
-	cv::Mat imgCompare = cv::Mat::zeros(_data[0].processing.size(), CV_8UC3);
+	cv::Mat imgCompare = cv::Mat(_data[0].processing.size(), CV_8UC3, cv::Scalar(255, 255, 255));
 	cv::MatIterator_<cv::Vec3b> itCompare = imgCompare.begin<cv::Vec3b>();
 
 	struct imageErrors m_errors2 { 0, 0, 0, 0, 0 };
