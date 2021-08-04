@@ -22,6 +22,7 @@ namespace Encoders
 	  void process(std::vector<_postData> &_data);
 	  void endProcess(std::vector<_postData> &_data);
 	  void endVideo();
+	  cv::Mat validBGR(cv::Mat & image);
 
 	 private:
 		QString m_name;

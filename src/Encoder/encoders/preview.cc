@@ -57,25 +57,33 @@ void Encoders::Preview::process(std::vector<_postData> &_data)
 	Logger->debug("_data[0].processing.empty() == {}:",  _data[0].processing.empty());
 	Logger->debug("_data[1].processing.empty()== {}:", _data[1].processing.empty());
 	#endif
+
+	cv::Mat m_image;
+	cv::Mat m_gt;
+	cv::Mat m_pre;
+	cv::Mat m_post;
+
+	cv::Mat Cat1;
+	cv::Mat Cat2;
+	cv::Mat Cat;
+
+	if (_data.size() >= 2) 
+	{
+		m_image = Encoders::Preview::validBGR(_data[0].processing);
+		m_gt = Encoders::Preview::validBGR(_data[1].processing);
+	}
+	if (_data.size() >= 3)
+	{
+		m_pre = Encoders::Preview::validBGR(_data[2].processing);
+	}
+	if (_data.size() >= 4)		
+	{
+		m_post = Encoders::Preview::validBGR(_data[3].processing);
+	}
 	
 	if (_data.size() == 2) 
 	{
-		cv::Mat a_image = _data[0].processing.clone();
-		cv::Mat a_gt = _data[1].processing.clone();
-		cv::Mat m_image;
-		cv::Mat m_gt;
-		if(a_image.channels() == 1)
-		{
-			cv::cvtColor(a_image, m_image, cv::COLOR_GRAY2BGR);
-		}
-		if(m_gt.channels() == 1)
-		{
-			cv::cvtColor(a_gt, m_gt, cv::COLOR_GRAY2BGR);
-		}    
-
-		cv::Mat Cat1;
 		cv::hconcat(m_image, m_gt, Cat1);
-		cv::Mat Cat;
 		cv::resize(Cat1, Cat, cv::Size(static_cast<int>(m_width), static_cast<int>(m_height)), 0, 0, cv::INTER_NEAREST);
 
 		#ifdef DEBUG
@@ -91,20 +99,6 @@ void Encoders::Preview::process(std::vector<_postData> &_data)
 		Logger->debug("_data.size() == {}:", _data.size());
 		Logger->debug("_data[2].processing.empty() == {}:",  _data[2].processing.empty());
 		#endif
-		cv::Mat a_image = _data[0].processing.clone();
-		cv::Mat a_gt = _data[1].processing.clone();
-		cv::Mat a_pre = _data[2].processing.clone();
-
-		cv::Mat m_image;
-		cv::Mat m_gt;
-		cv::Mat m_pre;
-
-		cv::cvtColor(a_image, m_image, cv::COLOR_GRAY2BGR);
-		cv::cvtColor(a_gt, m_gt, cv::COLOR_GRAY2BGR);
-		cv::cvtColor(a_pre, m_pre, cv::COLOR_GRAY2BGR);
-
-		cv::Mat Cat1;
-		cv::Mat Cat;
 
 		cv::hconcat(m_image, m_gt, Cat1);
 		cv::hconcat(m_pre, Cat1, Cat);
@@ -124,24 +118,6 @@ void Encoders::Preview::process(std::vector<_postData> &_data)
 		Logger->debug("_data[2].processing.empty() == {}:",  _data[2].processing.empty());
 		Logger->debug("_data[3].processing.empty()== {}:", _data[3].processing.empty());
 		#endif
-		cv::Mat a_image = _data[0].processing.clone();
-		cv::Mat a_gt = _data[1].processing.clone();
-		cv::Mat a_pre = _data[2].processing.clone();
-		cv::Mat a_post = _data[3].processing.clone();
-
-		cv::Mat m_image;
-		cv::Mat m_gt;
-		cv::Mat m_pre;
-		cv::Mat m_post;
-
-		cv::cvtColor(a_image, m_image, cv::COLOR_GRAY2BGR);
-		cv::cvtColor(a_gt, m_gt, cv::COLOR_GRAY2BGR);
-		cv::cvtColor(a_pre, m_pre, cv::COLOR_GRAY2BGR);
-		cv::cvtColor(a_post, m_post, cv::COLOR_GRAY2BGR);
-
-		cv::Mat Cat1;
-		cv::Mat Cat2;
-		cv::Mat Cat;
 
 		cv::hconcat(m_image, m_gt, Cat1);
 		cv::hconcat(m_pre, m_post, Cat2);
@@ -155,9 +131,22 @@ void Encoders::Preview::process(std::vector<_postData> &_data)
 		#endif
 		m_videoShoal->write(Cat);
 	}
-
-
 }
+
+cv::Mat Encoders::Preview::validBGR(cv::Mat & image)
+{
+	if(image.channels() == 1)
+	{
+		cv::Mat outputImage;
+		cv::cvtColor(image, outputImage, cv::COLOR_GRAY2BGR);
+		return outputImage;
+	}
+	else
+	{
+		return image.clone();
+	}
+}
+
 void Encoders::Preview::endProcess(std::vector<_postData> &_data)
 {
 	m_iter++;
