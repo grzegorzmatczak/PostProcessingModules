@@ -70,7 +70,7 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 				m_errors2.fnError += 1;
 				// but it's not
 				m_errors2.fpError += 1;
-				(*itCompare)[0] = 255;//B
+				(*itCompare)[0] = 255;//R
 				(*itCompare)[1] = 0;
 				(*itCompare)[2] = 0;
 			}
@@ -84,9 +84,16 @@ void Compares::DlibNetwork::process(std::vector<_postData> &_data)
 		Logger->debug("DlibNetwork tnError:{}", m_errors2.tnError);
 	#endif
 	#ifdef DEBUG_OPENCV
+		if (_data.size() >= 2)		
+		{
 		cv::imshow("binary", _data[0].processing);
 		cv::imshow("gt", _data[1].processing);
+		}
+		if (_data.size() >= 4)		
+		{
 		cv::imshow("clean", _data[2].processing);
+		cv::imshow("post", _data[3].processing);
+		}
 		cv::waitKey(1);
 	#endif
 	_postData temp{imgCompare.clone()};

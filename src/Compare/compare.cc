@@ -1,46 +1,55 @@
 #include "compare.h"
 #include "comparelist.h"
 
-#include <QLoggingCategory>
-Q_LOGGING_CATEGORY(CompareLogger, "Compare")
+//#define DEBUG
 
 constexpr auto NAME{ "Name" };
 
 
-Compare::Compare(QObject *parent) : PostProcess(parent) {
-  m_baseCompare = new Compares::None{};
-  //qCInfo(CompareLogger) << "Compare()";
+Compare::Compare(QObject *parent) : PostProcess(parent)
+{
+	#ifdef DEBUG
+	Logger->debug("Encoder::Encoder()");
+	#endif
+	m_baseCompare = new Compares::None{};
 }
 
-void Compare::configure(QJsonObject const &a_config) {
-  auto const NAME_STRING{a_config[NAME].toString()};
-  //qCInfo(CompareLogger) << "Compare::configure()  type:" << NAME_STRING;
-  Logger->trace("Compare::configure()  type:{}", NAME_STRING.toStdString());
-  delete m_baseCompare;
-  m_timer.reset();
+void Compare::configure(QJsonObject const &a_config)
+{
+	auto const _name{ a_config[NAME].toString() };
+	#ifdef DEBUG
+	Logger->debug("Encoder::configure() type:{}", _name.toStdString());
+	#endif
+	delete m_baseCompare;
+	m_timer.reset();
 
-  if (NAME_STRING == "None") {
-    m_baseCompare = new Compares::None{};
-  } else if (NAME_STRING == "VOT") {
-    m_baseCompare = new Compares::VOT{a_config};
-  } else if (NAME_STRING == "CodeStats2014") {
-    m_baseCompare = new Compares::CodeStats2014{ a_config };
-  } else if (NAME_STRING == "VOTCpp") {
-    m_baseCompare = new Compares::VOTCpp{ a_config };
-  } else if (NAME_STRING == "DlibNetwork") {
-    m_baseCompare = new Compares::DlibNetwork{ a_config };
-  } else {
-    qCWarning(CompareLogger)
-        << "Compare::configure() Unsupported filter type:" << NAME_STRING;
-  }
+	if (_name == "None")
+	{
+		m_baseCompare = new Compares::None{};
+	} else if (_name == "VOT")
+	{
+		m_baseCompare = new Compares::VOT{a_config};
+	} else if (_name == "CodeStats2014")
+	{
+		m_baseCompare = new Compares::CodeStats2014{ a_config };
+	} else if (_name == "VOTCpp")
+	{
+		m_baseCompare = new Compares::VOTCpp{ a_config };
+	} else if (_name == "DlibNetwork")
+	{
+		m_baseCompare = new Compares::DlibNetwork{ a_config };
+	} else
+	{
+		Logger->error("Unsupported encoder type: {}", _name.toStdString());
+	}
 }
 
 
-void Compare::process(std::vector<_postData> &_data) {
- // qCDebug(CompareLogger) << " Compare::process";
-  m_timer.start();
-  m_baseCompare->process(_data);
-  m_timer.stop();
+void Compare::process(std::vector<_postData> &_data)
+{
+	m_timer.start();
+	m_baseCompare->process(_data);
+	m_timer.stop();
 }
 double Compare::getElapsedTime() { return m_timer.getTimeMilli(); }
 
