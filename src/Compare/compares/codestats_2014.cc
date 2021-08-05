@@ -85,9 +85,17 @@ void Compares::CodeStats2014::process(std::vector<_postData> &_data)
 		Logger->debug("CodeStats2014 tnError:{}", m_errors2.tnError);
 	#endif
 	#ifdef DEBUG_OPENCV
+		if (_data.size() >= 2)		
+		{
 		cv::imshow("binary", _data[0].processing);
 		cv::imshow("gt", _data[1].processing);
-		cv::waitKey(1);
+		}
+		if (_data.size() >= 4)		
+		{
+		cv::imshow("clean", _data[2].processing);
+		cv::imshow("post", _data[3].processing);
+		}
+		cv::waitKey(0);
 	#endif
 
 	_postData temp{imgCompare.clone()};
