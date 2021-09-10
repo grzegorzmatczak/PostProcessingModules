@@ -57,9 +57,9 @@ void Compares::CodeStats2014::process(std::vector<_postData> &_data)
 			{
 				// but it's not
 				m_errors2.fpError += 1;
-				(*itCompare)[0] = 255;//R
+				(*itCompare)[0] = 0;
 				(*itCompare)[1] = 0;
-				(*itCompare)[2] = 0;
+				(*itCompare)[2] = 255;//R
 			}
 		}
 		else if(*itGT == 0 )
@@ -71,9 +71,9 @@ void Compares::CodeStats2014::process(std::vector<_postData> &_data)
 			else 
 			{
 				m_errors2.fnError += 1;
-				(*itCompare)[0] = 255;//R
+				(*itCompare)[0] = 0;
 				(*itCompare)[1] = 0;
-				(*itCompare)[2] = 0;
+				(*itCompare)[2] = 255;//R
 			}
 		}
 	}
