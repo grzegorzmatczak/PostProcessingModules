@@ -62,10 +62,10 @@ typedef struct regionOverlap
 
 struct imageErrors
 {
-	qint64 tpError;
-	qint64 fpError;
-	qint64 fnError;
-	qint64 tnError;
+	double tpError;
+	double fpError;
+	double fnError;
+	double tnError;
 	double time;
 };
 
@@ -85,10 +85,10 @@ struct fitnessFunction
 
 struct fitness
 {
-	qint64 fn;
-	qint64 fp;
-	qint64 tn;
-	qint64 tp;
+	double fn;
+	double fp;
+	double tn;
+	double tp;
 	double Accuracy;
 	double Recall;
 	double Specificity;

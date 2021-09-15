@@ -93,11 +93,11 @@ void Fitnesses::BGFitness::endProcess(std::vector<_postData> &_data)
 	Logger->debug("m_errors.tpError:{}", m_errors.tpError);
 	#endif
 
-	double fn = m_errors.fnError ? m_errors.fnError : 1;
-	double fp = m_errors.fpError ? m_errors.fpError : 1;
-	double tn = m_errors.tnError ? m_errors.tnError : 1;
-	double tp = m_errors.tpError ? m_errors.tpError : 1;
-	double time = m_errors.time ? m_errors.time : 1;
+	double fn = m_errors.fnError ? m_errors.fnError : 0.1;
+	double fp = m_errors.fpError ? m_errors.fpError : 0.1;
+	double tn = m_errors.tnError ? m_errors.tnError : 0.1;
+	double tp = m_errors.tpError ? m_errors.tpError : 0.1;
+	double time = m_errors.time ? m_errors.time : 0.1;
 
 
 	struct fitness fs;
