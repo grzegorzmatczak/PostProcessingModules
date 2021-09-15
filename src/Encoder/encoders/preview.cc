@@ -32,10 +32,11 @@ Encoders::Preview::Preview(QJsonObject const &a_config)
 	
 	m_name = a_config["Path"].toString();
 	m_fps = (double)a_config["FPS"].toInt();
-	m_iter = (a_config["Iter"].toInt());
 	m_type = a_config["Type"].toString();
 	m_width = a_config["Width"].toInt();
 	m_height = a_config["Height"].toInt();
+	m_saveSingleLastFrame = a_config["SaveSingleLastFrame"].toBool();
+	m_saveAllFrames = a_config["SaveAllFrames"].toBool();
 
 	m_videoShoal = new cv::VideoWriter((m_name + m_type).toStdString(),  
 				 stream, m_code, m_fps, cv::Size(m_width, m_height), true);
@@ -52,6 +53,7 @@ Encoders::Preview::Preview(QJsonObject const &a_config)
 
 void Encoders::Preview::process(std::vector<_postData> &_data)
 {
+	m_iter++;
 	#ifdef DEBUG
 	Logger->debug("_data.size() == {}:", _data.size());
 	Logger->debug("_data[0].processing.empty() == {}:",  _data[0].processing.empty());
@@ -119,8 +121,16 @@ void Encoders::Preview::process(std::vector<_postData> &_data)
 		Logger->debug("_data[3].processing.empty()== {}:", _data[3].processing.empty());
 		#endif
 
-		cv::hconcat(m_image, m_gt, Cat1);
-		cv::hconcat(m_pre, m_post, Cat2);
+		cv::bitwise_not(m_image, m_image);
+		cv::bitwise_not(m_gt, m_gt);
+
+		cv::hconcat(m_pre, m_image, Cat1);
+		cv::hconcat(m_gt, m_post, Cat2);
+
+		// Old setup:
+		//cv::hconcat(m_image, m_gt, Cat1);
+		//cv::hconcat(m_pre, m_post, Cat2);
+
 		cv::vconcat(Cat1, Cat2, Cat);
 
 		cv::resize(Cat, Cat, cv::Size(static_cast<int>(m_width), static_cast<int>(m_height)), 0, 0, cv::INTER_NEAREST);
@@ -130,6 +140,15 @@ void Encoders::Preview::process(std::vector<_postData> &_data)
 			cv::waitKey(1);
 		#endif
 		m_videoShoal->write(Cat);
+		if(m_saveAllFrames)
+		{
+			QString fitness = "_" + QString::number(_data[0].ie.fnError) + "_" + QString::number(_data[0].ie.fpError) + "_" + QString::number(_data[0].ie.tnError) + "_" + QString::number(_data[0].ie.tpError );
+			cv::imwrite((m_name +"_" + QString::number(m_iter) + fitness + "_input.png").toStdString(),m_pre);
+			cv::imwrite((m_name +"_" + QString::number(m_iter) + fitness + "_output.png").toStdString(),m_image);
+			cv::imwrite((m_name +"_" + QString::number(m_iter) + fitness + "_gt.png").toStdString(),m_gt);
+			cv::imwrite((m_name +"_" + QString::number(m_iter) + fitness + "_post.png").toStdString(),m_post);
+			Logger->info("m_name + {}",(m_name +"_" + QString::number(m_iter) + fitness + "_post.png").toStdString());
+		}
 	}
 }
 
@@ -149,10 +168,12 @@ cv::Mat Encoders::Preview::validBGR(cv::Mat & image)
 
 void Encoders::Preview::endProcess(std::vector<_postData> &_data)
 {
-	m_iter++;
+	//m_iter++;
 	#ifdef DEBUG
 	Logger->debug("Encoders::Preview::endProcess(std::vector<_postData> &_data)");
 	#endif
+
+	
 
 	m_videoShoal->release();
 	delete m_videoShoal;

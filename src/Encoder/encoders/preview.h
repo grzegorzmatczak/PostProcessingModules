@@ -35,6 +35,8 @@ namespace Encoders
 		cv::VideoWriter* m_videoShoal;
    	 	int iter;
 		QString m_split;
+		bool m_saveSingleLastFrame{};
+		bool m_saveAllFrames{};
 	};
 } // namespace Encoders
 
