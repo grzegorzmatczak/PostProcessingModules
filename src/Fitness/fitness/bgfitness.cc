@@ -11,6 +11,7 @@ constexpr auto PRECISION{ "Precision" };
 constexpr auto NEGATIVE_PRECISION{ "NegativePrecision" };
 constexpr auto F_MEASURE{ "FMeasure" };
 constexpr auto FITNESS_TIME{ "FitnessTime" };
+constexpr auto BALANCED_ACCURACY{ "BalancedAccuracy" };
 
 
 Fitnesses::BGFitness::BGFitness(QJsonObject const &a_config)
@@ -27,6 +28,7 @@ Fitnesses::BGFitness::BGFitness(QJsonObject const &a_config)
 	m_activeFitnessFunction.NegativePrecision = false;
 	m_activeFitnessFunction.FMeasure = false;
 	m_activeFitnessFunction.fitnessTime = false;
+	m_activeFitnessFunction.balancedAccuracy = false;
 
 	for (qint32 i = 0; i < activeFitnessList.size(); i++)
 	{
@@ -34,29 +36,33 @@ Fitnesses::BGFitness::BGFitness(QJsonObject const &a_config)
 		{
 			m_activeFitnessFunction.Accuracy = true;
 		}
-		if (activeFitnessList[i] == QString::fromStdString(RECALL))
+		else if (activeFitnessList[i] == QString::fromStdString(RECALL))
 		{
 			m_activeFitnessFunction.Recall = true;
 		}
-		if (activeFitnessList[i] == QString::fromStdString(SPECIFICITY))
+		else if (activeFitnessList[i] == QString::fromStdString(SPECIFICITY))
 		{
 			m_activeFitnessFunction.Specificity = true;
 		}
-		if (activeFitnessList[i] == QString::fromStdString(PRECISION))
+		else if (activeFitnessList[i] == QString::fromStdString(PRECISION))
 		{
 			m_activeFitnessFunction.Precision = true;
 		}
-		if (activeFitnessList[i] == QString::fromStdString(NEGATIVE_PRECISION))
+		else if (activeFitnessList[i] == QString::fromStdString(NEGATIVE_PRECISION))
 		{
 			m_activeFitnessFunction.NegativePrecision = true;
 		}
-		if (activeFitnessList[i] == QString::fromStdString(F_MEASURE))
+		else if (activeFitnessList[i] == QString::fromStdString(F_MEASURE))
 		{
 			m_activeFitnessFunction.FMeasure = true;
 		}
-		if (activeFitnessList[i] == QString::fromStdString(FITNESS_TIME))
+		else if (activeFitnessList[i] == QString::fromStdString(FITNESS_TIME))
 		{
 			m_activeFitnessFunction.fitnessTime = true;
+		}
+		else if (activeFitnessList[i] == QString::fromStdString(BALANCED_ACCURACY))
+		{
+			m_activeFitnessFunction.balancedAccuracy = true;
 		}
 	}
 
@@ -113,7 +119,9 @@ void Fitnesses::BGFitness::endProcess(std::vector<_postData> &_data)
 	fs.Accuracy = static_cast<double>((tp + tn) / (tp + tn + fp + fn));
 	fs.Recall = (tp / (tp + fn));
 	fs.Specificity = (tn / (tn + fp));
-	fs.FPR = (fp / (fp + tn));
+	double FPR = (fp / (fp + tn));
+	double TNR = (tn / (fp + tn));
+	fs.balancedAccuracy = (FPR + TNR)/2;
 	fs.FNR = (fn / (tp + fn));
 	fs.PWC = (100 * (fn + fp) / (tp + fn + fp + tn));
 	fs.Precision = (tp / (tp + fp));
@@ -147,6 +155,10 @@ void Fitnesses::BGFitness::endProcess(std::vector<_postData> &_data)
 	if (m_activeFitnessFunction.fitnessTime == true)
 	{
 		fs.fitness = fs.fitness + fs.fitnessTime;
+	}
+	if (m_activeFitnessFunction.balancedAccuracy == true)
+	{
+		fs.fitness = fs.fitness + fs.balancedAccuracy;
 	}
 	_data[0].fs = fs;
 	

@@ -81,6 +81,7 @@ struct fitnessFunction
 	bool NegativePrecision;
 	bool FMeasure;
 	bool fitnessTime;
+	bool balancedAccuracy;
 };
 
 struct fitness
@@ -104,6 +105,7 @@ struct fitness
 	double time;
 	double postTime;
 	double fitnessTime;
+	double balancedAccuracy;
 };
 
 struct _postData
