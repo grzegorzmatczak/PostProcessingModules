@@ -45,7 +45,7 @@ void Compares::CodeStats2014::process(std::vector<_postData> &_data)
 	{
 		if (*itGT == 255)
 		{ // Model thinks pixel is foreground  
-			if (*itBinary == 255)
+			if (*itBinary > 127)
 			{
 				// and it is
 				m_errors2.tpError += 1;
@@ -64,7 +64,7 @@ void Compares::CodeStats2014::process(std::vector<_postData> &_data)
 		}
 		else if(*itGT == 0 )
 		{ // Model thinks pixel is background
-			if (*itBinary == 0)
+			if (*itBinary <= 127)
 			{
 				m_errors2.tnError += 1; 
 			} 
