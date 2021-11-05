@@ -1,7 +1,8 @@
 #include "bgfitness.h"
 #include <QJsonObject>
 
-//#define DEBUG 
+//#define DEBUG
+#define DEBUG_END_PROCESS
 
 constexpr auto FITENSS_FUNCTION{ "FitnessFunction" };
 constexpr auto ACCURACY{ "Accuracy" };
@@ -169,6 +170,14 @@ void Fitnesses::BGFitness::endProcess(std::vector<_postData> &_data)
 	Logger->debug("_data[0].fs.Precision:{}", _data[0].fs.Precision);
 	Logger->debug("_data[0].fs.fitness:{}", _data[0].fs.fitness);
 	#endif
+	#ifdef DEBUG_END_PROCESS
+	Logger->debug(
+		"B:{:f} (fn:{},fp:{},tn:{},tp:{}) acc:{:f}, re:{:f}, FM:{:f}, p:{:f}, np:{:f}, spec:{:f}", fs.fitness,
+		fs.fn, fs.fp,
+		fs.tn, fs.tp, _data[0].fs.Accuracy, _data[0].fs.Recall, _data[0].fs.FMeasure, _data[0].fs.Precision,
+		_data[0].fs.NegativePrecision, _data[0].fs.Specificity);
+	#endif
+
 
 	//clean:
 	m_errors.fnError = 0;
