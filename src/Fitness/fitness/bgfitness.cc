@@ -2,7 +2,7 @@
 #include <QJsonObject>
 
 //#define DEBUG
-#define DEBUG_END_PROCESS
+//#define DEBUG_END_PROCESS
 
 constexpr auto FITENSS_FUNCTION{ "FitnessFunction" };
 constexpr auto ACCURACY{ "Accuracy" };
